@@ -141,6 +141,19 @@ The admin authenticates against `config.php`, so it works even if the `users`
 table has no admin row. Customers and guests get a 403 from
 `api/admin_data.php` no matter what the page shows.
 
+
+### Every time ngrok restarts
+
+Free-tier ngrok URLs change on every start, and a stale one means payments hang
+waiting for a callback that can never arrive. With ngrok running, from the
+project folder:
+
+Can't reach ngrok on 127.0.0.1:4040.
+Is it running? Start it in another terminal with:  ngrok http 80
+
+It reads the current URL from ngrok's local API on port 4040 and writes it into
+config.php with the right path. No Apache restart needed.
+
 ## Troubleshooting
 
 | Symptom | Cause |
