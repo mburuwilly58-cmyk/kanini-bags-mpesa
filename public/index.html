@@ -14,6 +14,7 @@
     <span class="nlk" onclick="sp('store')">Shop</span>
     <span class="nlk" onclick="sp('orders')">📋 Orders</span>
     <span class="nlk" onclick="sp('track')">🔍 Track</span>
+    <span class="nlk nlk-admin" id="nav-admin" style="display:none" onclick="sp('admin')">🛡 Admin</span>
   </div>
   <div class="nav-right">
     <span id="auth-out"><button class="btn btn-outline btn-sm" onclick="openAuth('in')">Sign In</button></span>
@@ -57,6 +58,28 @@
     <div class="fr" style="max-width:500px"><div class="fld"><label>Order ID or Phone</label><input type="text" id="ti" placeholder="KBI-XXXXXXXX or 07XX XXX XXX"></div></div>
     <button class="btn btn-pri" onclick="ts()" style="margin-top:8px">Search</button>
     <div id="tr" style="margin-top:18px"></div>
+  </section>
+</div>
+
+<div id="pg-admin" style="display:none">
+  <section class="section">
+    <div class="adm-head">
+      <div>
+        <h2>🛡 Admin Dashboard</h2>
+        <p class="adm-sub">Live transactions and customers</p>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="loadAdmin()">↻ Refresh</button>
+    </div>
+
+    <div class="adm-stats" id="adm-stats"></div>
+
+    <div class="adm-tabs">
+      <button class="adm-tab active" id="ad-t-tx" onclick="admTab('tx')">💳 Transactions</button>
+      <button class="adm-tab" id="ad-t-cu" onclick="admTab('cu')">👥 Customers</button>
+    </div>
+
+    <div id="adm-pane-tx"><div class="adm-scroll"><table class="adm-table" id="adm-tx"></table></div></div>
+    <div id="adm-pane-cu" style="display:none"><div class="adm-scroll"><table class="adm-table" id="adm-cu"></table></div></div>
   </section>
 </div>
 

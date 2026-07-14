@@ -23,6 +23,15 @@ return [
 
     'account_ref' => 'Kanini Bags',
 
+    // Admin login. Lives here rather than in the committed code because this
+    // file is gitignored — anything in a tracked file is public on GitHub, and
+    // git history keeps it even after a change.
+    // New password: php -r "echo password_hash('yours', PASSWORD_BCRYPT);"
+    'admin' => [
+        'email'         => 'admin@kanini.co.ke',
+        'password_hash' => 'paste_a_bcrypt_hash_here',
+    ],
+
     // MySQL (XAMPP defaults: root / empty password)
     'db' => [
         'host' => '127.0.0.1',

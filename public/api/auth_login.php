@@ -14,6 +14,27 @@ if ($email === '' || $pass === '') {
     json_fail('Email and password are required.');
 }
 
+// Admin credentials come from config.php rather than the users table, so the
+// admin can sign in even if the database has no admin row.
+$cfg   = mpesa_config();
+$admin = $cfg['admin'] ?? null;
+
+if ($admin && strtolower((string) $admin['email']) === $email) {
+    if (!password_verify($pass, (string) $admin['password_hash'])) {
+        json_fail('Incorrect email or password.', 401);
+    }
+    auth_session_start();
+    session_regenerate_id(true);
+    $_SESSION['uid']      = null;
+    $_SESSION['is_admin'] = true;
+    $_SESSION['admin_email'] = $email;
+
+    json_out(['ok' => true, 'user' => [
+        'id' => 'admin', 'name' => 'Administrator', 'email' => $email,
+        'phone' => '', 'address' => '', 'role' => 'admin',
+    ]]);
+}
+
 $st = db()->prepare('SELECT id, name, email, phone, address, role, password FROM users WHERE email = ?');
 $st->execute([$email]);
 $user = $st->fetch();

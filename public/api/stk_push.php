@@ -62,13 +62,33 @@ try {
         json_fail($body['errorMessage'] ?? $body['CustomerMessage'] ?? 'STK push rejected by Safaricom.');
     }
 
+    // Record the basket with the payment. Orders otherwise live only in the
+    // customer's localStorage, which the admin can never see.
+    $items = [];
+    foreach ((array) ($in['items'] ?? []) as $it) {
+        if (!is_array($it)) {
+            continue;
+        }
+        $items[] = [
+            'name'  => mb_substr((string) ($it['name'] ?? '?'), 0, 100),
+            'qty'   => max(1, (int) ($it['qty'] ?? 1)),
+            'price' => (float) ($it['price'] ?? 0),
+        ];
+        if (count($items) >= 50) {
+            break;
+        }
+    }
+
     $id = $body['CheckoutRequestID'];
     payment_put($id, [
-        'status'     => 'PENDING',
-        'amount'     => $amount,
-        'phone'      => $phone,
-        'user_id'    => $user['id'],
-        'created_at' => time(),
+        'status'        => 'PENDING',
+        'amount'        => $amount,
+        'phone'         => $phone,
+        'user_id'       => $user['id'],
+        'customer_name' => $user['name'],
+        'customer_email'=> $user['email'],
+        'items'         => $items,
+        'created_at'    => time(),
     ]);
 
     json_out([

@@ -48,9 +48,35 @@ function auth_session_start(): void
     session_start();
 }
 
+function is_admin(): bool
+{
+    auth_session_start();
+    return !empty($_SESSION['is_admin']);
+}
+
+// Every admin endpoint calls this first. Without it the pages are just URLs
+// anyone could request.
+function require_admin(): void
+{
+    if (!is_admin()) {
+        json_fail('Admin access required.', 403);
+    }
+}
+
 function current_user(): ?array
 {
     auth_session_start();
+
+    // The admin isn't a users row — it comes from config.php.
+    if (!empty($_SESSION['is_admin'])) {
+        return [
+            'id' => 'admin', 'name' => 'Administrator',
+            'email' => (string) ($_SESSION['admin_email'] ?? ''),
+            'phone' => '', 'address' => '', 'role' => 'admin',
+            'customer_tier' => null, 'loyalty_points' => 0,
+        ];
+    }
+
     if (empty($_SESSION['uid'])) {
         return null;
     }

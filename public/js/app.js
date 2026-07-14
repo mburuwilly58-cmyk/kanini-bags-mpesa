@@ -23,7 +23,8 @@ function sp(p){
   $('pg-store').style.display=p==='store'?'block':'none';
   $('pg-orders').style.display=p==='orders'?'block':'none';
   $('pg-track').style.display=p==='track'?'block':'none';
-  if(p==='store')rs();if(p==='orders')ro();
+  $('pg-admin').style.display=p==='admin'?'block':'none';
+  if(p==='store')rs();if(p==='orders')ro();if(p==='admin')loadAdmin();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -105,7 +106,12 @@ function showMpesaPin(amount){
 // The PIN is entered on the phone's SIM prompt. Safaricom never sends it to us,
 // and a web page that asks for an M-Pesa PIN is indistinguishable from phishing.
 async function stkPush(phone,amount){
-  var r=await fetch('api/stk_push.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:phone,amount:amount})});
+  // Send the basket too, so the admin can see what each payment was for.
+  var items=(checkoutData&&checkoutData.items||[]).map(function(x){
+    var p=fp(x.pid);
+    return {name:p?p.name:'Unknown',qty:x.qty,price:p?p.price:0};
+  });
+  var r=await fetch('api/stk_push.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:phone,amount:amount,items:items})});
   var d=await r.json();
   if(!d.ok)throw new Error(d.error||'STK push failed');
   return d;
@@ -247,9 +253,11 @@ function doLogout(){
 function setUser(u){
   currentUser=u;
   var inEl=$('auth-in'),outEl=$('auth-out');
+  // Hiding the link is cosmetic; admin_data.php enforces the real check.
+  $('nav-admin').style.display=(u&&u.role==='admin')?'inline-block':'none';
   if(u){
     outEl.style.display='none';inEl.style.display='flex';
-    $('nav-user').textContent='👤 '+u.name.split(' ')[0];
+    $('nav-user').textContent=(u.role==='admin'?'🛡 ':'👤 ')+u.name.split(' ')[0];
     // Prefill checkout from the account so the customer isn't retyping it.
     if(u.name)$('con').value=u.name;
     if(u.phone)$('cop').value=u.phone;
@@ -277,4 +285,74 @@ function requireAuth(next){
     openAuth('in');
     toast('Please sign in to continue',true);
   });
+}
+
+// ════════════════ ADMIN ════════════════
+var admData=null,admActive='tx';
+
+// Customer names, emails and item names are user-controlled and land in
+// innerHTML below. Without escaping, a customer could sign up as
+// <img src=x onerror=...> and run script in the admin's session.
+function esc(s){
+  return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function admDate(ts){return ts?new Date(ts*1000).toLocaleString('en-KE'):'—'}
+function admBadge(st){
+  var m={SUCCESS:['bs','✅ Paid'],PENDING:['bp2','⏳ Pending'],FAILED:['be','❌ Failed']};
+  var b=m[st]||['bp2',st];
+  return '<span class="badge '+b[0]+'">'+b[1]+'</span>';
+}
+
+function admTab(t){
+  admActive=t;
+  $('ad-t-tx').classList.toggle('active',t==='tx');
+  $('ad-t-cu').classList.toggle('active',t==='cu');
+  $('adm-pane-tx').style.display=t==='tx'?'block':'none';
+  $('adm-pane-cu').style.display=t==='cu'?'block':'none';
+}
+
+function loadAdmin(){
+  fetch('api/admin_data.php').then(function(r){return r.json()}).then(function(d){
+    if(!d.ok){toast(d.error||'Could not load admin data',true);return}
+    admData=d;renderAdmStats(d.stats);renderAdmTx(d.transactions);renderAdmCu(d.customers);
+  }).catch(function(e){toast('Admin data failed: '+e.message,true)});
+}
+
+function renderAdmStats(s){
+  var cards=[
+    ['rev','Revenue',fmtKES(s.revenue||0)],
+    ['ok','Paid',s.paid||0],
+    ['pend','Pending',s.pending||0],
+    ['fail','Failed',s.failed||0],
+    ['','Customers',s.customers==null?'—':s.customers]
+  ];
+  $('adm-stats').innerHTML=cards.map(function(c){
+    return '<div class="adm-card '+c[0]+'"><div class="lbl">'+c[1]+'</div><div class="val">'+c[2]+'</div></div>';
+  }).join('');
+}
+
+function renderAdmTx(tx){
+  if(!tx.length){$('adm-tx').innerHTML='<tr><td class="adm-empty">No transactions yet. They appear here as soon as a customer pays.</td></tr>';return}
+  var head='<tr><th>When</th><th>Customer</th><th>Phone</th><th>Items</th><th>Amount</th><th>Status</th><th>Receipt</th></tr>';
+  $('adm-tx').innerHTML=head+tx.map(function(t){
+    var items=(t.items||[]).map(function(i){return esc(i.name)+' ×'+i.qty}).join(', ')||'—';
+    var receipt=t.receipt?'<span class="adm-mono">'+esc(t.receipt)+'</span>'
+                        :(t.reason?'<span class="adm-items">'+esc(t.reason)+'</span>':'—');
+    return '<tr><td>'+admDate(t.created)+'</td><td>'+esc(t.customer||'—')+'<div class="adm-items">'+esc(t.email||'')+'</div></td>'+
+      '<td class="adm-mono">'+esc(t.phone)+'</td><td class="adm-items">'+items+'</td>'+
+      '<td><strong>'+fmtKES(t.amount)+'</strong></td><td>'+admBadge(t.status)+'</td><td>'+receipt+'</td></tr>';
+  }).join('');
+}
+
+function renderAdmCu(cs){
+  if(!cs||!cs.length){$('adm-cu').innerHTML='<tr><td class="adm-empty">No customers yet.</td></tr>';return}
+  var head='<tr><th>Name</th><th>Email</th><th>Phone</th><th>Tier</th><th>Points</th><th>Spent</th><th>Joined</th></tr>';
+  $('adm-cu').innerHTML=head+cs.map(function(c){
+    return '<tr><td>'+esc(c.name)+'</td><td class="adm-items">'+esc(c.email)+'</td>'+
+      '<td class="adm-mono">'+esc(c.phone)+'</td><td><span class="badge bp2">'+esc(c.customer_tier||'—')+'</span></td>'+
+      '<td>'+esc(c.loyalty_points||0)+'</td><td>'+fmtKES(c.total_spent||0)+'</td>'+
+      '<td class="adm-items">'+esc(c.created_at||'—')+'</td></tr>';
+  }).join('');
 }
