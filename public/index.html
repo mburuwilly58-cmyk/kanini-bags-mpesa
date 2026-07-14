@@ -2,276 +2,84 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Kanini Bags - Premium Kenyan Bags Store. Quality backpacks, handbags, travel bags with M-Pesa payment and delivery across Kenya.">
-<title>Kanini Bags — Premium Kenyan Bags | M-Pesa Payments</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Kanini Bags — M-Pesa STK Push</title>
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<div id="toast-container" class="toast-container"></div>
 
-<!-- ══════════════════════ STOREFRONT ══════════════════════ -->
-<div id="page-store" class="page active">
-  <nav class="navbar">
-    <div class="nav-brand" onclick="topFunction()">
-      <div class="nav-brand-icon">👜</div>
-      <div class="nav-brand-text">Kanini<span>Bags</span></div>
-    </div>
-    <div class="nav-links">
-      <a class="nav-link" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Collection</a>
-      <a class="nav-link" onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})">Categories</a>
-      <a class="nav-link" onclick="navigateTo('page-track')">Track Order</a>
-    </div>
-    <div class="nav-actions">
-      <button class="btn-track-nav" onclick="navigateTo('page-track')">📦 Track</button>
-      <button class="nav-signin-btn" id="nav-signin-btn" onclick="navigateTo('page-auth')">👤 Sign In</button>
-      <div style="position:relative">
-        <button class="nav-user-btn" id="nav-user-btn" onclick="toggleUserDropdown(event)" style="display:none"><span id="nav-user-icon">👤</span><span id="nav-user-name-disp">Account</span> ▾</button>
-        <div class="nav-user-dropdown" id="nav-user-dropdown">
-          <div class="ud-item" onclick="navigateTo('page-account');setAccountTab('orders');closeUserDropdown()">📋 My Orders</div>
-          <div class="ud-item" onclick="navigateTo('page-account');setAccountTab('profile');closeUserDropdown()">👤 My Profile</div>
-          <div class="ud-item ud-danger" onclick="customerLogout();closeUserDropdown()">🚪 Sign Out</div>
-        </div>
-      </div>
-      <button class="btn btn-cart-nav" onclick="toggleCart()">🛒 Cart <span class="cart-badge" id="cart-count">0</span></button>
-    </div>
-  </nav>
+<nav class="navbar">
+  <div class="nb" onclick="sp('store')">👜 Kanini<span>Bags</span></div>
+  <div class="nl">
+    <span class="nlk" onclick="sp('store')">Shop</span>
+    <span class="nlk" onclick="sp('orders')">📋 Orders</span>
+    <span class="nlk" onclick="sp('track')">🔍 Track</span>
+  </div>
+  <div><button class="btn btn-pri btn-sm" onclick="tc()">🛒 <span id="cc">0</span></button></div>
+</nav>
+<div id="pg-store">
+<section class="hero">
+  <h1>Premium <span>Kenyan Bags</span></h1>
+  <p>Quality bags for every journey. Pay with M-Pesa. Fast delivery across Kenya.</p>
+  <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1">
+    <button class="btn btn-gold" onclick="document.getElementById('store-prods').scrollIntoView({behavior:'smooth'})">🛍️ Shop Now</button>
+    <button class="btn btn-outline" style="background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.2)" onclick="sp('track')">📦 Track Order</button>
+  </div>
+</section>
+<section class="section">
+  <div class="cw" id="cf"></div>
+  <div class="pg" id="store-prods"></div>
+</section>
+<footer class="ft"><div class="nb" style="justify-content:center;margin-bottom:8px">👜 Kanini<span>Bags</span></div><p style="max-width:400px;margin:0 auto 12px">Premium bags crafted for quality. M-Pesa payments accepted.</p><p style="font-size:.7rem;color:#475569">© 2026 Kanini Bags</p></footer>
+</div>
 
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-badge"><span style="width:8px;height:8px;background:var(--green);border-radius:50%"></span> Fast Delivery Across Kenya</div>
-      <h1>Premium <span class="gradient-text">Kenyan Bags</span> for Every Journey</h1>
-      <p>Discover our curated collection of quality bags — from sleek travel luggage to everyday backpacks. Pay with M-Pesa and get fast delivery anywhere in Kenya.</p>
-      <div class="hero-cta">
-        <button class="btn btn-gold" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">✨ Browse Collection</button>
-        <button class="btn btn-outline-light" onclick="navigateTo('page-track')">📦 Track Your Order</button>
-      </div>
+<div id="pg-orders" style="display:none">
+  <section class="section">
+    <h2 style="margin-bottom:16px">📋 Your Orders</h2>
+    <div class="fr" style="margin-bottom:14px">
+      <div class="fld"><label>Phone</label><input type="text" id="opf" placeholder="07XX XXX XXX" oninput="ro()"></div>
+      <div class="fld"><label>Status</label><select id="osf" onchange="ro()"><option value="">All</option><option>Confirmed</option><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select></div>
     </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="hero-stat-val" id="hero-stat-prods">8+</div><div class="hero-stat-lbl">Premium Bags</div></div>
-      <div class="hero-stat"><div class="hero-stat-val" id="hero-stat-custs">500+</div><div class="hero-stat-lbl">Happy Customers</div></div>
-      <div class="hero-stat"><div class="hero-stat-val">Nationwide</div><div class="hero-stat-lbl">Delivery</div></div>
-      <div class="hero-stat"><div class="hero-stat-val">M-Pesa</div><div class="hero-stat-lbl">Secure Payment</div></div>
-    </div>
+    <div id="ol"></div>
   </section>
+</div>
 
-  <section class="section" id="categories">
-    <div class="section-hdr"><h2>Shop by Category</h2><p>Find the perfect bag for every occasion</p><div class="gold-line"></div></div>
-    <div class="cat-scroll" id="cat-filter"></div>
+<div id="pg-track" style="display:none">
+  <section class="section">
+    <h2 style="margin-bottom:16px">🔍 Track Order</h2>
+    <div class="fr" style="max-width:500px"><div class="fld"><label>Order ID or Phone</label><input type="text" id="ti" placeholder="KBI-XXXXXXXX or 07XX XXX XXX"></div></div>
+    <button class="btn btn-pri" onclick="ts()" style="margin-top:8px">Search</button>
+    <div id="tr" style="margin-top:18px"></div>
   </section>
-
-  <section class="section" id="products" style="padding-top:0"><div class="products-grid" id="store-products"></div></section>
-
-  <footer class="footer">
-    <h3>👜 Kanini Bags</h3>
-    <p>Premium bags crafted for quality and style. Fast delivery across Nairobi and all of Kenya. Pay securely with M-Pesa.</p>
-    <div class="footer-links">
-      <a onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Collection</a>
-      <a onclick="navigateTo('page-track')">Track Order</a>
-      <a onclick="navigateTo('page-auth')">My Account</a>
-      <a onclick="navigateTo('page-login')">Admin</a>
-      <a onclick="topFunction()">Back to Top</a>
-    </div>
-    <div class="footer-copy">&copy; 2026 Kanini Bags. All rights reserved.</div>
-  </footer>
-  <div id="receipt-print" style="display:none"></div>
 </div>
 
-<!-- ══════════════════════ CUSTOMER AUTH PAGE ══════════════════════ -->
-<div id="page-auth" class="page">
-  <nav class="navbar"><div class="nav-brand" onclick="navigateTo('page-store')"><div class="nav-brand-icon">👜</div><div class="nav-brand-text">Kanini<span>Bags</span></div></div><div class="nav-actions"><button class="btn btn-outline btn-sm" onclick="navigateTo('page-store')">← Store</button></div></nav>
-  <div style="display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 140px);padding:20px">
-    <div class="card" style="width:100%;max-width:420px;padding:32px">
-      <div class="auth-tabs">
-        <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
-        <button class="auth-tab" onclick="switchAuthTab('signup')">Create Account</button>
-      </div>
-      <div class="auth-form active" id="auth-form-login">
-        <div style="text-align:center;font-size:2.5rem;margin-bottom:12px">👤</div>
-        <div class="form-field"><label>Email or Phone</label><input type="text" id="login-email" placeholder="your@email.com or 07XX XXX XXX"></div>
-        <div class="form-field"><label>Password</label><input type="password" id="login-password" placeholder="Your password"></div>
-        <button class="btn btn-primary btn-block" onclick="customerLogin()">Sign In</button>
-        <p style="text-align:center;margin-top:12px;font-size:.78rem;color:var(--muted)">Don't have an account? <a href="#" onclick="switchAuthTab('signup')" style="color:var(--pri);font-weight:600">Create one</a></p>
-      </div>
-      <div class="auth-form" id="auth-form-signup">
-        <div style="text-align:center;font-size:2.5rem;margin-bottom:12px">✨</div>
-        <div class="form-field"><label>Full Name *</label><input type="text" id="signup-name" placeholder="Your full name"></div>
-        <div class="form-field"><label>Phone Number *</label><input type="text" id="signup-phone" placeholder="07XX XXX XXX"></div>
-        <div class="form-field"><label>Email</label><input type="email" id="signup-email" placeholder="your@email.com"></div>
-        <div class="form-field"><label>Password *</label><input type="password" id="signup-password" placeholder="Create a password (min 6 chars)"></div>
-        <div class="form-field"><label>Delivery Address</label><input type="text" id="signup-address" placeholder="Estate, Town, County"></div>
-        <button class="btn btn-primary btn-block" onclick="customerSignup()">Create Account</button>
-        <p style="text-align:center;margin-top:12px;font-size:.78rem;color:var(--muted)">Already have an account? <a href="#" onclick="switchAuthTab('login')" style="color:var(--pri);font-weight:600">Sign in</a></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════ CUSTOMER ACCOUNT PAGE ══════════════════════ -->
-<div id="page-account" class="page">
-  <nav class="navbar">
-    <div class="nav-brand" onclick="navigateTo('page-store')"><div class="nav-brand-icon">👜</div><div class="nav-brand-text">Kanini<span>Bags</span></div></div>
-    <div class="nav-links"><a class="nav-link" onclick="navigateTo('page-store')">← Shop</a></div>
-    <div class="nav-actions">
-      <button class="nav-signin-btn" onclick="customerLogout()">🚪 Sign Out</button>
-      <button class="btn btn-cart-nav" onclick="toggleCart()">🛒 Cart <span class="cart-badge" id="cart-count-2">0</span></button>
-    </div>
-  </nav>
-  <div class="account-layout">
-    <h1 style="margin-bottom:6px">👤 My Account</h1>
-    <p style="color:var(--muted);margin-bottom:24px">Welcome back, <strong id="account-welcome-name">Customer</strong></p>
-    <div class="account-tabs">
-      <button class="account-tab active" id="acct-tab-orders" onclick="setAccountTab('orders')">📋 My Orders</button>
-      <button class="account-tab" id="acct-tab-profile" onclick="setAccountTab('profile')">👤 My Profile</button>
-    </div>
-    <div id="acct-content-orders">
-      <div id="customer-orders-list"></div>
-    </div>
-    <div id="acct-content-profile" style="display:none">
-      <div class="profile-card" style="margin:0 auto">
-        <div class="profile-avatar" id="profile-avatar">U</div>
-        <div style="text-align:center;margin-bottom:20px"><strong style="font-size:1.1rem" id="profile-name">-</strong><br><span style="color:var(--muted);font-size:.84rem" id="profile-email">-</span></div>
-        <div class="form-field"><label>Full Name</label><input type="text" id="edit-profile-name"></div>
-        <div class="form-field"><label>Phone Number</label><input type="text" id="edit-profile-phone"></div>
-        <div class="form-field"><label>Email</label><input type="email" id="edit-profile-email"></div>
-        <div class="form-field"><label>Delivery Address</label><input type="text" id="edit-profile-address"></div>
-        <button class="btn btn-primary btn-block" onclick="saveProfile()">💾 Save Changes</button>
-        <button class="btn btn-secondary btn-block" onclick="changeCustomerPassword()" style="margin-top:8px">🔒 Change Password</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- ══════════════════════ CART SIDEBAR ══════════════════════ -->
-<div class="cart-overlay" id="cart-overlay"><div class="cart-panel">
-  <div class="cart-hdr"><h2>🛒 Your Cart</h2><button class="cart-close" onclick="toggleCart()">✕</button></div>
-  <div class="cart-items-wrap" id="cart-items"></div>
-  <div class="cart-ftr">
-    <div class="cart-total"><span>Total</span><span id="cart-total">KES 0</span></div>
-    <div class="cart-tax">Delivery calculated at checkout</div>
-    <button class="btn btn-primary btn-block" onclick="openCheckout()" id="btn-checkout" disabled>Proceed to Checkout →</button>
-  </div>
+<div class="co" id="co"><div class="cp">
+  <div class="ch"><h2>🛒 Your Cart</h2><button style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--mu)" onclick="tc()">✕</button></div>
+  <div class="ciw" id="ci"></div>
+  <div class="cf"><div class="ctr"><span>Total</span><span id="cttv">KES 0</span></div><div class="ctx">Delivery calculated at checkout</div><button class="btn btn-pri" onclick="oc()" id="bco" disabled style="width:100%">Proceed to Checkout →</button></div>
 </div></div>
 
-<!-- ══════════════════════ LOGIN PAGE ══════════════════════ -->
-<div id="page-login" class="page">
-  <nav class="navbar"><div class="nav-brand" onclick="navigateTo('page-store')"><div class="nav-brand-icon">👜</div><div class="nav-brand-text">Kanini<span>Bags</span></div></div><div class="nav-actions"><button class="btn btn-primary btn-sm" onclick="navigateTo('page-store')">← Store</button></div></nav>
-  <div style="display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 140px);padding:20px">
-    <div class="card" style="width:100%;max-width:400px;padding:32px;text-align:center">
-      <div style="font-size:3rem;margin-bottom:8px">🔐</div>
-      <h2>Admin Portal</h2>
-      <p style="color:var(--muted);font-size:.84rem;margin-bottom:20px">Sign in to manage Kanini Bags</p>
-      <div class="form-field"><label>Username</label><input type="text" id="login-user" placeholder="Enter username"></div>
-      <div class="form-field"><label>Password</label><input type="password" id="login-pass" placeholder="Enter password"></div>
-      <button class="btn btn-primary btn-block" onclick="doLogin()">Sign In</button>
-      <p style="margin-top:14px;font-size:.76rem;color:var(--muted)">admin / willy / james (password: username + 123)</p>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════ TRACK ORDER PAGE ══════════════════════ -->
-<div id="page-track" class="page">
-  <nav class="navbar"><div class="nav-brand" onclick="navigateTo('page-store')"><div class="nav-brand-icon">👜</div><div class="nav-brand-text">Kanini<span>Bags</span></div></div><div class="nav-actions"><button class="btn btn-outline btn-sm" onclick="navigateTo('page-store')">← Back to Store</button></div></nav>
-  <section class="hero" style="padding:50px 20px"><div class="hero-inner"><h1 style="font-size:2rem">Track Your <span class="gradient-text">Order</span></h1><p>Enter your order ID or phone number to check your delivery status</p></div></section>
-  <div class="section" style="padding-top:0">
-    <div class="track-box">
-      <div class="track-row"><input type="text" id="track-input" placeholder="Order ID (KBI-XXXXXXXX) or Phone Number (07XX XXX XXX)"><button class="btn btn-primary" onclick="trackOrder()">🔍 Track</button></div>
-      <div id="track-result" style="margin-top:24px"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════ ADMIN LAYOUT ══════════════════════ -->
-<div id="page-admin" class="page">
-  <nav class="navbar" style="position:fixed;z-index:1000"><div class="nav-brand"><div class="nav-brand-icon" style="background:var(--pri)">👜</div><div class="nav-brand-text" style="font-size:1.05rem">Kanini<span>Bags</span> <small style="font-size:.65rem;color:var(--muted);margin-left:4px">Admin</small></div></div><div class="nav-actions"><span id="admin-name-top" style="color:var(--pri);font-size:.82rem;font-weight:600"></span><button class="btn-logout" onclick="logout()">Logout</button></div></nav>
-  <div class="admin-sidebar">
-    <div class="admin-sidebar-profile"><div class="admin-avatar" id="admin-avatar">A</div><div><div class="admin-name" id="sidebar-admin-name">Admin</div><div class="admin-role">Management</div></div></div>
-    <div class="admin-nav">
-      <a class="active" onclick="showAdminPanel('dashboard')"><span class="icn">📊</span> Dashboard</a>
-      <a onclick="showAdminPanel('inventory')"><span class="icn">📦</span> Inventory</a>
-      <a onclick="showAdminPanel('orders')"><span class="icn">📋</span> Orders</a>
-      <a onclick="showAdminPanel('sales')"><span class="icn">💰</span> Sales</a>
-      <a onclick="showAdminPanel('customers')"><span class="icn">👥</span> Customers</a>
-      <a onclick="showAdminPanel('reports')"><span class="icn">📈</span> Reports</a>
-    </div>
-  </div>
-  <div class="admin-main">
-    <!-- Dashboard -->
-    <div class="admin-panel active" id="panel-dashboard">
-      <div class="admin-panel-hdr"><div><h1>📊 Dashboard</h1><p class="admin-panel-sub">Business overview & insights</p></div><button class="btn btn-primary btn-sm" onclick="openProdModal()">+ Add Product</button></div>
-      <div class="stats-grid" id="dash-stats"></div>
-      <div class="content-grid">
-        <div class="card"><h2>📋 Recent Orders</h2><table><thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr></thead><tbody id="dash-orders-tbl"></tbody></table></div>
-        <div class="card"><h2>⚠️ Low Stock Alert</h2><div id="dash-lowstock"></div></div>
-      </div>
-      <div class="card"><h2>📊 Monthly Sales (KES)</h2><div class="chart" id="dash-chart"></div></div>
-    </div>
-    <!-- Inventory -->
-    <div class="admin-panel" id="panel-inventory">
-      <div class="admin-panel-hdr"><div><h1>📦 Inventory</h1><p class="admin-panel-sub">Manage your bag collection</p></div><button class="btn btn-primary btn-sm" onclick="openProdModal()">+ Add Product</button></div>
-      <div class="card"><table><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead><tbody id="inv-table"></tbody></table></div>
-    </div>
-    <!-- Orders -->
-    <div class="admin-panel" id="panel-orders">
-      <div class="admin-panel-hdr"><div><h1>📋 Order Management</h1><p class="admin-panel-sub">Track & update order statuses</p></div></div>
-      <div class="card"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Phone</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th style="text-align:right">Update</th></tr></thead><tbody id="orders-table"></tbody></table></div>
-    </div>
-    <!-- Sales -->
-    <div class="admin-panel" id="panel-sales">
-      <div class="admin-panel-hdr"><div><h1>💰 Sales Transactions</h1><p class="admin-panel-sub">All payment records</p></div></div>
-      <div class="card"><table><thead><tr><th>Date</th><th>Order ID</th><th>Customer</th><th>Item</th><th>Qty</th><th>Total</th><th>Payment</th><th style="text-align:right">Actions</th></tr></thead><tbody id="sales-table"></tbody></table></div>
-    </div>
-    <!-- Customers -->
-    <div class="admin-panel" id="panel-customers">
-      <div class="admin-panel-hdr"><div><h1>👥 Customers</h1><p class="admin-panel-sub">Registered buyers</p></div></div>
-      <div class="card"><table><thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Orders</th><th>Total Spent</th><th style="text-align:right">Actions</th></tr></thead><tbody id="cust-table"></tbody></table></div>
-    </div>
-    <!-- Reports -->
-    <div class="admin-panel" id="panel-reports">
-      <div class="admin-panel-hdr"><div><h1>📈 Reports</h1></div></div>
-      <div class="stats-grid" id="rep-stats"></div>
-      <div class="content-grid">
-        <div class="card"><h2>🏆 Top Selling Bags</h2><table><thead><tr><th>Bag</th><th>Sold</th><th>Revenue</th></tr></thead><tbody id="rep-topprod"></tbody></table></div>
-        <div class="card"><h2>👑 Top Customers</h2><table><thead><tr><th>Customer</th><th>Orders</th><th>Spent</th></tr></thead><tbody id="rep-topcust"></tbody></table></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════ CHECKOUT MODAL ══════════════════════ -->
-<div class="modal-backdrop" id="checkout-modal"><div class="modal-dialog">
+<div class="mb" id="cm"><div class="md">
   <h2>💳 Checkout</h2>
-  <div class="co-steps"><div class="co-step active" id="cs-1"><div class="co-num">1</div>Details</div><div class="co-arrow" id="ca-1">→</div><div class="co-step" id="cs-2"><div class="co-num">2</div>Payment</div><div class="co-arrow" id="ca-2">→</div><div class="co-step" id="cs-3"><div class="co-num">3</div>Confirm</div></div>
-  <div id="checkout-form">
-    <div class="form-field"><label>Full Name *</label><input type="text" id="co-name" placeholder="Your full name"></div>
-    <div class="form-field"><label>Phone Number (M-Pesa) *</label><input type="text" id="co-phone" placeholder="07XX XXX XXX"></div>
-    <div class="form-field"><label>Delivery Address</label><input type="text" id="co-address" placeholder="Estate, Town, County"></div>
-    <div class="form-field"><label>Email (for updates)</label><input type="email" id="co-email" placeholder="your@email.com"></div>
-    <p style="background:var(--pri-light);padding:12px;border-radius:10px;font-weight:700;color:var(--pri);margin:10px 0">Order Total: <span id="co-total" style="font-size:1.15rem"></span></p>
-    <div class="modal-actions"><button class="btn btn-secondary" onclick="closeCheckout()">Cancel</button><button class="btn btn-primary" onclick="startMpesa()">📱 Pay with M-Pesa →</button></div>
-  </div>
-  <div id="checkout-mpesa" style="display:none"></div>
+  <div class="fld"><label>Full Name *</label><input type="text" id="con" value="Jane Muthoni"></div>
+  <div class="fld"><label>Phone (M-Pesa) *</label><input type="text" id="cop" value="0746105098"></div>
+  <div class="fld"><label>Delivery Address</label><input type="text" id="coa" value="Nairobi CBD"></div>
+  <div class="fld"><label>Email</label><input type="email" id="coe" placeholder="your@email.com"></div>
+  <div style="background:var(--pl);padding:10px 14px;border-radius:10px;font-weight:700;color:var(--pri);margin:10px 0">Total: <span id="cot"></span></div>
+  <div class="mft"><button class="btn btn-outline" onclick="cc()">Cancel</button><button class="btn btn-pri" onclick="smf()">📱 Pay with M-Pesa →</button></div>
 </div></div>
 
-<!-- ══════════════════════ PRODUCT MODAL ══════════════════════ -->
-<div class="modal-backdrop" id="prod-modal"><div class="modal-dialog">
-  <h2 id="prod-modal-title">Add New Bag</h2>
-  <input type="hidden" id="prod-edit-id">
-  <div class="form-field"><label>Name *</label><input type="text" id="prod-name" placeholder="Bag name"></div>
-  <div class="form-row">
-    <div class="form-field"><label>Category</label>
-      <select id="prod-cat"><option>Backpack</option><option>Handbag</option><option>Tote Bag</option><option>Travel Bag</option><option>Laptop Bag</option><option>Duffel Bag</option><option>Messenger Bag</option><option>Sling Bag</option><option>School Bag</option><option>Other</option></select></div>
-    <div class="form-field"><label>Price (KES) *</label><input type="number" id="prod-price" min="0"></div>
-  </div>
-  <div class="form-row">
-    <div class="form-field"><label>Stock *</label><input type="number" id="prod-stock" min="0"></div>
-    <div class="form-field"><label>Low Threshold</label><input type="number" id="prod-thresh" value="5" min="0"></div>
-  </div>
-  <div class="form-field"><label>Description</label><textarea id="prod-desc" rows="2"></textarea></div>
-  <div class="form-field"><label>Emoji</label>
-    <select id="prod-emoji"><option value="🧳">🧳 Travel</option><option value="🎒">🎒 Backpack</option><option value="👜">👜 Handbag</option><option value="💼">💼 Laptop</option><option value="🛍️">🛍️ Tote</option><option value="🏀">🏀 Duffel</option><option value="👝">👝 Messenger</option><option value="📚">📚 School</option><option value="🎯">🎯 Sling</option><option value="🖤">🖤 Other</option></select></div>
-  <div class="modal-actions"><button class="btn btn-secondary" onclick="closeProdModal()">Cancel</button><button class="btn btn-primary" onclick="saveProduct()">💾 Save Product</button></div>
+<div class="mpo" id="mpo"><div class="mpp">
+  <div class="mph"><span>📶 Safaricom</span><span class="mpb">M-PESA</span><span>🔋 85%</span></div>
+  <div style="font-size:.8rem;color:var(--mu)">Confirm Payment</div>
+  <div class="mpa" id="mad">KES 0</div>
+  <div class="mpt" id="mtd">Pay to: Kanini Bags</div>
+  <div class="stk-wait" id="stkw"><div class="stk-spin"></div></div>
+  <div style="color:var(--mu);font-size:.78rem;margin-bottom:10px;min-height:34px" id="pf">Sending STK Push...</div>
+  <div class="mpf"><button style="background:none;border:none;color:var(--rd);cursor:pointer;font-family:inherit;font-size:.7rem" onclick="cancelStk()">Cancel</button><span style="margin:0 8px">·</span>Dial *234# for M-Pesa</div>
 </div></div>
 
+<div class="mb" id="odm"><div class="md"><h2>📦 Order Confirmed!</h2><div id="odc"></div></div></div>
 <script src="js/app.js"></script>
 </body>
 </html>

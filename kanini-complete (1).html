@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Kanini Bags — M-Pesa STK Push</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--pri:#7C3AED;--pd:#5B21B6;--pl:#F5F3FF;--gold:#D4A853;--dk:#1E1B2E;--bg:#FBFAFF;--sf:#fff;--tx:#2D264B;--mu:#8B83A8;--bd:#EDE9F5;--gn:#059669;--gl:#ECFDF5;--rd:#EF4444;--rl:#FEF2F2;--bl:#3B82F6;--ol:#FFFBEB;--or:#F59E0B;--r:16px;--rs:12px}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;overflow-x:hidden}
+.navbar{background:rgba(255,255,255,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:0 clamp(16px,4vw,28px);display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:1000}
+.nb{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:1.15rem;font-weight:800;color:var(--dk)}.nb span{color:var(--pri)}
+.nl{display:flex;align-items:center;gap:6px;font-size:.84rem}
+.nlk{color:var(--mu);padding:7px 12px;border-radius:8px;cursor:pointer;transition:.2s}.nlk:hover{color:var(--pri);background:var(--pl)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border:none;border-radius:10px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}
+.btn-pri{background:var(--pri);color:#fff}.btn-pri:hover{background:var(--pd);box-shadow:0 4px 14px rgba(124,58,237,.25)}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{background:#B8860B}
+.btn-outline{background:transparent;border:1.5px solid var(--bd);color:var(--tx)}.btn-outline:hover{background:var(--bg)}
+.btn-sm{padding:6px 14px;font-size:.78rem}
+.hero{background:linear-gradient(135deg,#1E1B2E,#3B2760,#1E1B2E);color:#fff;padding:clamp(36px,6vw,64px)20px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(124,58,237,.2),transparent 60%);border-radius:50%}
+.hero h1{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;position:relative;z-index:1;margin-bottom:10px}
+.hero h1 span{background:linear-gradient(90deg,#C4B5FD,#FBBF24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:#94A3B8;max-width:500px;margin:0 auto 22px;position:relative;z-index:1}
+.section{padding:clamp(24px,4vw,44px) clamp(16px,3vw,28px);max-width:1100px;margin:0 auto}
+.cw{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:20px 0}
+.cc{padding:7px 18px;border-radius:20px;font-size:.82rem;cursor:pointer;border:1.5px solid var(--bd);background:var(--sf);color:var(--mu);transition:.2s;font-family:inherit}
+.cc.active,.cc:hover{background:var(--pri);color:#fff;border-color:var(--pri)}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.pc{background:var(--sf);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04);border:1px solid var(--bd);transition:.3s;display:flex;flex-direction:column}
+.pc:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+.pi{width:100%;height:200px;object-fit:cover;background:var(--bg)}
+.pb{position:absolute;top:10px;left:10px;padding:4px 10px;border-radius:12px;font-size:.65rem;font-weight:700;color:#fff;z-index:2}
+.bp{background:var(--gold)}.blw{background:var(--or)}.bo{background:var(--rd)}.bn{background:var(--pri)}
+.piw{position:relative}
+.pbd{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column}
+.pbd h3{font-size:.9rem;font-weight:600;margin-bottom:2px}
+.ppc{font-size:.7rem;color:var(--mu);margin-bottom:6px}
+.ppr{font-size:1.1rem;font-weight:700;color:var(--pri);margin-top:auto;margin-bottom:3px}
+.ps{font-size:.7rem;display:flex;align-items:center;gap:4px;margin-bottom:10px}
+.ps.in{color:var(--gn)}.ps.low{color:var(--or)}.ps.out{color:var(--rd)}
+.sd{width:5px;height:5px;border-radius:50%;background:currentColor}
+
+.co{position:fixed;inset:0;background:rgba(15,15,30,.5);z-index:2000;display:none;justify-content:flex-end}
+.co.open{display:flex}
+.cp{background:var(--sf);width:100%;max-width:400px;height:100%;display:flex;flex-direction:column;animation:sr .3s}
+@keyframes sr{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.ch{padding:16px 20px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}.ch h2{font-size:.95rem}
+.ciw{flex:1;overflow-y:auto;padding:12px 20px}
+.ci{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid var(--bd);align-items:center}
+.cim{width:44px;height:44px;border-radius:8px;object-fit:cover;background:var(--bg);flex-shrink:0}
+.cii{flex:1;min-width:0}.cin{font-weight:600;font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ciq{display:flex;align-items:center;gap:4px;margin-top:4px}
+.ciq button{width:22px;height:22px;border:1.5px solid var(--bd);border-radius:5px;background:var(--sf);cursor:pointer;color:var(--pri);font-weight:700;font-size:.75rem}
+.cit{font-weight:700;font-size:.82rem;text-align:right;min-width:55px;color:var(--pri)}
+.ce{text-align:center;padding:40px 16px;color:var(--mu);font-size:.85rem}
+.cf{padding:16px 20px;border-top:1px solid var(--bd);background:#FAFBFC}
+.ctr{display:flex;justify-content:space-between;font-weight:700;font-size:1.05rem;margin-bottom:3px}
+.ctx{font-size:.68rem;color:var(--mu);text-align:right;margin-bottom:10px}
+
+.mb{position:fixed;inset:0;background:rgba(15,15,30,.5);z-index:3000;display:none;justify-content:center;align-items:center;padding:16px}
+.mb.open{display:flex}
+.md{background:var(--sf);border-radius:var(--r);padding:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15);animation:pop .25s}
+@keyframes pop{from{opacity:0;transform:scale(.94)translateY(8px)}to{opacity:1;transform:scale(1)translateY(0)}}
+.md h2{font-size:1rem;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.fld{margin-bottom:10px}.fld label{display:block;font-size:.74rem;font-weight:600;margin-bottom:3px}
+.fld input,.fld select,.fld textarea{width:100%;padding:9px 12px;border:1.5px solid var(--bd);border-radius:8px;font-size:.85rem;font-family:inherit;background:#FAFBFC}
+.fld input:focus,.fld select:focus{outline:none;border-color:var(--pri)}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mft{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;padding-top:12px;border-top:1px solid var(--bd)}
+
+/* MPESA PIN */
+.mpo{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:4000;display:none;justify-content:center;align-items:center}
+.mpo.open{display:flex}
+.mpp{background:#fff;border-radius:24px;padding:30px 24px;width:100%;max-width:360px;text-align:center;box-shadow:0 30px 60px rgba(0,0,0,.3);animation:pop .3s}
+.mph{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;font-size:.8rem;color:var(--mu)}
+.mpb{color:var(--gn);font-weight:700;font-size:.9rem}
+.mpa{font-size:2rem;font-weight:800;color:var(--dk);margin:10px 0 2px}
+.mpt{font-size:.78rem;color:var(--mu);margin-bottom:20px}
+.pds{display:flex;gap:12px;justify-content:center;margin-bottom:14px}
+.pdd{width:16px;height:16px;border-radius:50%;border:2px solid var(--bd);transition:.2s}.pdd.filled{background:var(--pri);border-color:var(--pri)}
+.ppd{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:260px;margin:0 auto}
+.pk{width:70px;height:52px;border-radius:10px;border:1.5px solid var(--bd);background:#F8FAFC;font-size:1.15rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.1s;font-family:inherit;color:var(--dk)}
+.pk:active{background:var(--pl);border-color:var(--pri)}.pk.sub{background:var(--gn);color:#fff;border:none;font-size:.75rem}.pk.del{background:var(--rd);color:#fff;border:none;font-size:.75rem}
+.mpf{font-size:.68rem;color:var(--mu);margin-top:14px}
+
+.prg{display:flex;align-items:center;position:relative;margin:16px 0 20px}
+.prl{position:absolute;top:10px;left:5%;right:5%;height:3px;background:var(--bd);z-index:0;border-radius:3px}
+.prf{position:absolute;top:10px;left:5%;height:3px;background:var(--pri);z-index:1;border-radius:3px;transition:width .6s}
+.st{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;z-index:2}
+.sd2{width:14px;height:14px;border-radius:50%;background:var(--bd);border:2px solid var(--sf);transition:.3s}
+.sd2.done{background:var(--pri)}.sd2.cur{background:var(--gold);box-shadow:0 0 0 4px rgba(212,168,83,.2);animation:pulse2 2s infinite}@keyframes pulse2{50%{box-shadow:0 0 0 8px rgba(212,168,83,.06)}}
+.sl{font-size:.6rem;color:var(--mu);font-weight:500}.sl.done{color:var(--pri)}.sl.cur{color:var(--gold);font-weight:700}
+
+.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:16px;font-size:.66rem;font-weight:600}
+.bs{background:var(--gl);color:var(--gn)}.bp2{background:var(--ol);color:#92400E}.be{background:var(--rl);color:var(--rd)}.bi{background:#EFF6FF;color:var(--bl)}.bpu{background:var(--pl);color:var(--pri)}
+
+.ob{background:var(--sf);border-radius:var(--r);padding:18px;border:1px solid var(--bd);margin-bottom:12px}
+.oh{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.oi{font-weight:700;font-size:.88rem}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:.8rem;margin-top:8px}
+.di .lbl{font-size:.64rem;color:var(--mu);text-transform:uppercase;letter-spacing:.02em}.di .val{font-weight:600}
+
+.term{background:var(--dk);color:#A7F3D0;border-radius:var(--rs);padding:14px;font-family:'Fira Code',monospace;font-size:.73rem;line-height:1.85;max-height:320px;overflow-y:auto;white-space:pre-wrap;word-break:break-all}
+
+.tabs{display:flex;gap:2px;margin-bottom:14px;border-bottom:2px solid var(--bd)}
+.tab{padding:8px 16px;font-size:.82rem;font-weight:500;cursor:pointer;border:none;background:none;color:var(--mu);border-bottom:2px solid transparent;margin-bottom:-2px;transition:.2s;font-family:inherit}.tab:hover{color:var(--pri)}.tab.ta{color:var(--pri);font-weight:700;border-bottom-color:var(--pri)}
+
+.rb{padding:18px;border-radius:var(--rs);text-align:center}.rb.ok{background:var(--gl);border:1px solid #A7F3D0}
+
+.toast{position:fixed;top:14px;right:14px;background:var(--sf);padding:10px 16px;border-radius:10px;font-weight:600;font-size:.8rem;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:999;border-left:3px solid var(--gn);animation:si .3s}
+.toast.err{border-left-color:var(--rd)}@keyframes si{from{opacity:0;transform:translateX(16px)}}
+
+.es{text-align:center;padding:28px 16px;color:var(--mu)}.ei{font-size:2.2rem;margin-bottom:6px}
+.ft{background:var(--dk);color:#64748B;padding:32px 20px;text-align:center;font-size:.8rem}
+@media(max-width:560px){.pg{grid-template-columns:1fr}.fr{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nb" onclick="sp('store')">👜 Kanini<span>Bags</span></div>
+  <div class="nl">
+    <span class="nlk" onclick="sp('store')">Shop</span>
+    <span class="nlk" onclick="sp('orders')">📋 Orders</span>
+    <span class="nlk" onclick="sp('track')">🔍 Track</span>
+  </div>
+  <div><button class="btn btn-pri btn-sm" onclick="tc()">🛒 <span id="cc">0</span></button></div>
+</nav>
+<div id="pg-store">
+<section class="hero">
+  <h1>Premium <span>Kenyan Bags</span></h1>
+  <p>Quality bags for every journey. Pay with M-Pesa. Fast delivery across Kenya.</p>
+  <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1">
+    <button class="btn btn-gold" onclick="document.getElementById('store-prods').scrollIntoView({behavior:'smooth'})">🛍️ Shop Now</button>
+    <button class="btn btn-outline" style="background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.2)" onclick="sp('track')">📦 Track Order</button>
+  </div>
+</section>
+<section class="section">
+  <div class="cw" id="cf"></div>
+  <div class="pg" id="store-prods"></div>
+</section>
+<footer class="ft"><div class="nb" style="justify-content:center;margin-bottom:8px">👜 Kanini<span>Bags</span></div><p style="max-width:400px;margin:0 auto 12px">Premium bags crafted for quality. M-Pesa payments accepted.</p><p style="font-size:.7rem;color:#475569">© 2026 Kanini Bags</p></footer>
+</div>
+
+<div id="pg-orders" style="display:none">
+  <section class="section">
+    <h2 style="margin-bottom:16px">📋 Your Orders</h2>
+    <div class="fr" style="margin-bottom:14px">
+      <div class="fld"><label>Phone</label><input type="text" id="opf" placeholder="07XX XXX XXX" oninput="ro()"></div>
+      <div class="fld"><label>Status</label><select id="osf" onchange="ro()"><option value="">All</option><option>Confirmed</option><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select></div>
+    </div>
+    <div id="ol"></div>
+  </section>
+</div>
+
+<div id="pg-track" style="display:none">
+  <section class="section">
+    <h2 style="margin-bottom:16px">🔍 Track Order</h2>
+    <div class="fr" style="max-width:500px"><div class="fld"><label>Order ID or Phone</label><input type="text" id="ti" placeholder="KBI-XXXXXXXX or 07XX XXX XXX"></div></div>
+    <button class="btn btn-pri" onclick="ts()" style="margin-top:8px">Search</button>
+    <div id="tr" style="margin-top:18px"></div>
+  </section>
+</div>
+
+<div class="co" id="co"><div class="cp">
+  <div class="ch"><h2>🛒 Your Cart</h2><button style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--mu)" onclick="tc()">✕</button></div>
+  <div class="ciw" id="ci"></div>
+  <div class="cf"><div class="ctr"><span>Total</span><span id="cttv">KES 0</span></div><div class="ctx">Delivery calculated at checkout</div><button class="btn btn-pri" onclick="oc()" id="bco" disabled style="width:100%">Proceed to Checkout →</button></div>
+</div></div>
+
+<div class="mb" id="cm"><div class="md">
+  <h2>💳 Checkout</h2>
+  <div class="fld"><label>Full Name *</label><input type="text" id="con" value="Jane Muthoni"></div>
+  <div class="fld"><label>Phone (M-Pesa) *</label><input type="text" id="cop" value="0746105098"></div>
+  <div class="fld"><label>Delivery Address</label><input type="text" id="coa" value="Nairobi CBD"></div>
+  <div class="fld"><label>Email</label><input type="email" id="coe" placeholder="your@email.com"></div>
+  <div style="background:var(--pl);padding:10px 14px;border-radius:10px;font-weight:700;color:var(--pri);margin:10px 0">Total: <span id="cot"></span></div>
+  <div class="mft"><button class="btn btn-outline" onclick="cc()">Cancel</button><button class="btn btn-pri" onclick="smf()">📱 Pay with M-Pesa →</button></div>
+</div></div>
+
+<div class="mpo" id="mpo"><div class="mpp">
+  <div class="mph"><span>📶 Safaricom</span><span class="mpb">M-PESA</span><span>🔋 85%</span></div>
+  <div style="font-size:.8rem;color:var(--mu)">Confirm Payment</div>
+  <div class="mpa" id="mad">KES 0</div>
+  <div class="mpt" id="mtd">Pay to: Kanini Bags</div>
+  <div class="pds" id="pds"><div class="pdd"></div><div class="pdd"></div><div class="pdd"></div><div class="pdd"></div></div>
+  <div style="color:var(--mu);font-size:.7rem;margin-bottom:10px" id="pf">Enter your M-Pesa PIN</div>
+  <div class="ppd">
+    <button class="pk" onclick="pp('1')">1</button><button class="pk" onclick="pp('2')">2</button><button class="pk" onclick="pp('3')">3</button>
+    <button class="pk" onclick="pp('4')">4</button><button class="pk" onclick="pp('5')">5</button><button class="pk" onclick="pp('6')">6</button>
+    <button class="pk" onclick="pp('7')">7</button><button class="pk" onclick="pp('8')">8</button><button class="pk" onclick="pp('9')">9</button>
+    <button class="pk del" onclick="pp('del')">⌫</button><button class="pk" onclick="pp('0')">0</button><button class="pk sub" onclick="pp('ok')">OK</button>
+  </div>
+  <div class="mpf"><button style="background:none;border:none;color:var(--rd);cursor:pointer;font-family:inherit;font-size:.7rem" onclick="pp('cancel')">Cancel</button><span style="margin:0 8px">·</span>Dial *234# for M-Pesa</div>
+</div></div>
+
+<div class="mb" id="odm"><div class="md"><h2>📦 Order Confirmed!</h2><div id="odc"></div></div></div>
+<script>
+var DB={get:function(k,d){try{return JSON.parse(localStorage.getItem(k)||d)}catch(e){return JSON.parse(d)}},set:function(k,v){localStorage.setItem(k,JSON.stringify(v))},products:function(){return this.get('kc_prods','[]')},setProducts:function(d){this.set('kc_prods',d)},orders:function(){return this.get('kc_ords','[]')},setOrders:function(d){this.set('kc_ords',d)}};
+var IMG={travel:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=280&fit=crop',backpack:'https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=400&h=280&fit=crop',handbag:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&h=280&fit=crop',laptop:'https://images.unsplash.com/photo-1622560480654-d96214fdc887?w=400&h=280&fit=crop',fb:'https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?w=400&h=280&fit=crop'};
+var cart=[],activeCat='All',currentPage='store',checkoutData=null,pinEntry='';
+
+function $(id){return document.getElementById(id)}
+function fmtKES(n){return'KES '+parseInt(n).toLocaleString('en-KE')}
+function uid(){return'KBI-'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,6).toUpperCase()}
+function now(){return new Date().toISOString().split('T')[0]}
+function nw(){return new Date().toLocaleString('en-KE')}
+function fp(id){return DB.products().find(function(p){return p.id===id})}
+function ss(p){if(p.stock<=0)return{l:'Out of Stock',c:'be',css:'out'};if(p.stock<=p.thresh)return{l:'Low Stock',c:'bp2',css:'low'};return{l:'In Stock',c:'bs',css:'in'}}
+function toast(m,e){var d=document.createElement('div');d.className='toast'+(e?' err':'');d.textContent=(e?'❌ ':'✅ ')+m;document.body.appendChild(d);setTimeout(function(){d.style.opacity='0';d.style.transition='all .3s';setTimeout(function(){d.remove()},300)},2500)}
+
+function seed(){
+  if(DB.products().length===0){
+    DB.setProducts([{id:'p1',name:'Premium Leather Travel Bag',cat:'Travel Bag',price:5500,stock:22,thresh:5,desc:'Genuine leather for trips.',img:IMG.travel},{id:'p2',name:'Urban Canvas Backpack',cat:'Backpack',price:2800,stock:45,thresh:10,desc:'Heavy-duty canvas, padded laptop.',img:IMG.backpack},{id:'p3',name:'Elegant Ladies Handbag',cat:'Handbag',price:3800,stock:16,thresh:5,desc:'Vegan leather, gold hardware.',img:IMG.handbag},{id:'p4',name:'Slim Laptop Sleeve',cat:'Laptop Bag',price:1900,stock:3,thresh:5,desc:'Waterproof neoprene.',img:IMG.laptop},{id:'p5',name:'Eco Cotton Tote',cat:'Tote Bag',price:1200,stock:58,thresh:10,desc:'100% organic cotton.',img:IMG.fb},{id:'p6',name:'Pro Sports Duffel',cat:'Duffel Bag',price:4200,stock:14,thresh:5,desc:'50L with shoe compartment.',img:IMG.fb},{id:'p7',name:'Kids School Bag',cat:'School Bag',price:1600,stock:32,thresh:8,desc:'Lightweight, fun prints.',img:IMG.fb},{id:'p8',name:'Leather Messenger',cat:'Messenger Bag',price:3200,stock:9,thresh:5,desc:'Full-grain leather, fits tablet.',img:IMG.fb}]);
+  }
+}
+seed();
+
+function sp(p){
+  currentPage=p;
+  $('pg-store').style.display=p==='store'?'block':'none';
+  $('pg-orders').style.display=p==='orders'?'block':'none';
+  $('pg-track').style.display=p==='track'?'block':'none';
+  if(p==='store')rs();if(p==='orders')ro();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function rs(){
+  var prods=DB.products();
+  var cats=['All'].concat([].concat.apply([],new Set(prods.map(function(p){return p.cat}).sort())).filter(function(v,i,a){return a.indexOf(v)===i}));
+  $('cf').innerHTML=cats.map(function(c){return'<button class="cc'+(c===activeCat?' active':'')+'" onclick="sc(\''+c+'\')">'+c+'</button>'}).join('');
+  var f=activeCat==='All'?prods:prods.filter(function(p){return p.cat===activeCat});
+  $('store-prods').innerHTML=f.map(function(p){
+    var s=ss(p),tag='',dis='';
+    if(p.stock<=0){tag='<div class="pb bo">Sold Out</div>';dis=' disabled'}
+    else if(p.stock<=p.thresh)tag='<div class="pb blw">Low Stock</div>';
+    else tag='<div class="pb bn">New</div>';
+    return'<div class="pc"><div class="piw">'+tag+'<img class="pi" src="'+p.img+'" loading="lazy" onerror="this.src=\''+IMG.fb+'\'"></div><div class="pbd"><h3>'+p.name+'</h3><div class="ppc">'+p.cat+'</div><div class="ppr">'+fmtKES(p.price)+'</div><div class="ps '+s.css+'"><span class="sd"></span>'+s.l+' · '+p.stock+' left</div><button class="btn btn-pri btn-sm" onclick="ac(\''+p.id+'\')"'+dis+' style="width:100%">'+(p.stock<=0?'Sold Out':'🛒 Add to Cart')+'</button></div></div>';
+  }).join('');
+}
+function sc(c){activeCat=c;rs();document.getElementById('store-prods').scrollIntoView({behavior:'smooth'})}
+
+function ac(pid){var p=fp(pid);if(!p||p.stock<=0)return;var ex=cart.find(function(x){return x.pid===pid});if(ex){if(ex.qty>=p.stock){toast('Max stock!',true);return}ex.qty++}else cart.push({pid:pid,qty:1});rc();toast('Added!')}
+function rc(){
+  $('cc').textContent=cart.reduce(function(s,x){return s+x.qty},0);
+  if(cart.length===0){$('ci').innerHTML='<div class="ce"><div class="ei">🛒</div><p>Empty cart</p></div>';$('cttv').textContent='KES 0';$('bco').disabled=true;return}
+  var total=0;
+  $('ci').innerHTML=cart.map(function(x){var p=fp(x.pid);if(!p)return'';var st=p.price*x.qty;total+=st;
+    return'<div class="ci"><img class="cim" src="'+p.img+'" onerror="this.src=\''+IMG.fb+'\'"><div class="cii"><div class="cin">'+p.name+'</div><div class="ciq"><button onclick="qc(\''+x.pid+'\',-1)">\u2212</button><span>'+x.qty+'</span><button onclick="qc(\''+x.pid+'\',1)">+</button></div></div><div class="cit">'+fmtKES(st)+'</div></div>';
+  }).join('');
+  $('cttv').textContent=fmtKES(total);$('bco').disabled=false;
+}
+function qc(pid,d){var x=cart.find(function(x){return x.pid===pid});if(!x)return;var p=fp(pid);x.qty+=d;if(x.qty<1){cart=cart.filter(function(c){return c.pid!==pid})}else if(x.qty>p.stock){x.qty=p.stock;toast('Max!',true)}rc()}
+function tc(){$('co').classList.toggle('open')}
+
+function oc(){
+  if(cart.length===0)return;
+  var total=cart.reduce(function(s,x){var p=fp(x.pid);return s+(p?p.price*x.qty:0)},0);
+  $('cot').textContent=fmtKES(total);
+  $('cm').classList.add('open');
+}
+function cc(){$('cm').classList.remove('open');checkoutData=null}
+
+function smf(){
+  var name=$('con').value.trim(),phone=$('cop').value.trim(),addr=$('coa').value.trim(),email=$('coe').value.trim();
+  if(!name||!phone)return toast('Name + phone required',true);
+  var pn=phone.replace(/[^0-9]/g,'');
+  if(pn.startsWith('0'))pn='254'+pn.slice(1);else if(pn.length===9&&pn.startsWith('7'))pn='254'+pn;else if(!pn.startsWith('254'))pn='254'+pn;
+  var total=cart.reduce(function(s,x){var p=fp(x.pid);return s+(p?p.price*x.qty:0)},0);
+  checkoutData={name:name,phone:phone,pn:pn,addr:addr,email:email,total:total,items:cart.slice()};
+  $('cm').classList.remove('open');
+  showMpesaPin(total);
+}
+
+function showMpesaPin(amount){
+  pinEntry='';
+  $('mad').textContent=fmtKES(amount);
+  $('mtd').textContent='Pay to: Kanini Bags (174379)';
+  udots();
+  $('pf').textContent='Enter your M-Pesa PIN';$('pf').style.color='var(--mu)';
+  $('mpo').classList.add('open');
+  setTimeout(function(){$('pf').textContent='\ud83d\udcf2 STK Push received \u00b7 Enter PIN'},500);
+}
+
+function pp(key){
+  if(key==='cancel'){$('mpo').classList.remove('open');checkoutData=null;toast('Cancelled');return}
+  if(key==='del'){pinEntry=pinEntry.slice(0,-1);udots();return}
+  if(key==='ok'){
+    if(pinEntry.length===0){$('pf').textContent='\u26a0\ufe0f Enter your PIN';$('pf').style.color='var(--rd)';return}
+    if(pinEntry.length<4){$('pf').textContent='\u26a0\ufe0f PIN too short (min 4)';$('pf').style.color='var(--rd)';return}
+    $('pf').textContent='\u23f3 Processing payment...';$('pf').style.color='var(--bl)';
+    setTimeout(function(){$('pf').textContent='\u2705 PIN accepted!';$('pf').style.color='var(--gn)';
+      setTimeout(function(){$('mpo').classList.remove('open');completeOrder()},800);
+    },1500);
+    return;
+  }
+  if(pinEntry.length<6){pinEntry+=key;udots();if(pinEntry.length>=4)$('pf').textContent='Tap OK to confirm'}
+}
+
+function udots(){var d=$('pds').children;for(var i=0;i<d.length;i++)d[i].classList.toggle('filled',i<pinEntry.length)}
+
+function completeOrder(){
+  if(!checkoutData)return;
+  var cd=checkoutData;
+  var receipt='RCT'+Date.now().toString(36).toUpperCase();
+  var orderId=uid();
+  var prods=DB.products();
+  cd.items.forEach(function(x){var i=prods.findIndex(function(p){return p.id===x.pid});if(i>=0)prods[i].stock=Math.max(0,prods[i].stock-x.qty)});
+  DB.setProducts(prods);
+  var order={id:orderId,customerName:cd.name,phone:cd.phone,phoneNum:cd.pn,address:cd.addr||'',email:cd.email||'',items:cd.items.map(function(x){var p=fp(x.pid);return p?p.name+' x'+x.qty:'Unknown'}),total:cd.total,date:now(),time:nw(),status:'Confirmed',mpesaRef:receipt,paymentMethod:'M-Pesa STK Push'};
+  var orders=DB.orders();orders.push(order);DB.setOrders(orders);
+  $('odc').innerHTML='<div class="rb ok"><div style="font-size:3rem;margin-bottom:6px">\u2705</div><h3 style="color:var(--gn);margin-bottom:12px">Payment Successful!</h3><div class="dg"><div class="di"><div class="lbl">Order ID</div><div class="val" style="color:var(--pri);font-size:.9rem"><strong>'+orderId+'</strong></div></div><div class="di"><div class="lbl">Customer</div><div class="val">'+cd.name+'</div></div><div class="di"><div class="lbl">M-Pesa Ref</div><div class="val"><span class="badge bs">'+receipt+'</span></div></div><div class="di"><div class="lbl">Total</div><div class="val" style="color:var(--pri);font-weight:700">'+fmtKES(cd.total)+'</div></div><div class="di"><div class="lbl">Phone</div><div class="val">'+cd.phone+'</div></div><div class="di"><div class="lbl">Date</div><div class="val">'+nw+'</div></div><div class="di"><div class="lbl">Status</div><div class="val"><span class="badge bs">Confirmed</span></div></div><div class="di"><div class="lbl">Payment</div><div class="val">M-Pesa STK Push</div></div></div><p style="margin-top:12px;font-size:.78rem;color:var(--mu)">\ud83d\udca1 Save Order ID: <strong>'+orderId+'</strong></p><button class="btn btn-pri" onclick="finOrder()" style="margin-top:10px">Continue Shopping</button></div>';
+  $('odm').classList.add('open');
+  cart=[];rc();rs();checkoutData=null;
+  toast('Order '+orderId+' confirmed!');
+}
+function finOrder(){$('odm').classList.remove('open')}
+
+function ro(){
+  var pf=($('opf').value||'').replace(/[^0-9]/g,''),sf=$('osf').value;
+  var orders=DB.orders();
+  if(pf)orders=orders.filter(function(o){return((o.phone||'')+(o.phoneNum||'')).replace(/[^0-9]/g,'').includes(pf)});
+  if(sf)orders=orders.filter(function(o){return o.status===sf});
+  orders=[].concat(orders).reverse();
+  var stages=['Confirmed','Processing','Shipped','Delivered'],d=$('ol');
+  if(orders.length===0){d.innerHTML='<div class="es"><div class="ei">\ud83d\udccb</div><p>No orders</p></div>';return}
+  d.innerHTML=orders.map(function(o){
+    var idx=stages.indexOf(o.status),c=o.status==='Cancelled';
+    var sc=c?'Cancelled':idx>=3?'Delivered':idx>=2?'Shipped':idx>=1?'Processing':'Confirmed';
+    var pct=c?'0%':idx>=0?((idx+1)/stages.length*90)+'%':'18%';
+    var bc=sc==='Delivered'?'bs':sc==='Cancelled'?'be':sc==='Shipped'?'bpu':sc==='Processing'?'bi':'bs';
+    var items=(Array.isArray(o.items)?o.items:[]).join(', ');
+    return'<div class="ob"><div class="oh"><span class="oi">\ud83d\udce6 '+o.id+'</span><span class="badge '+bc+'">'+o.status+'</span></div><div class="prg"><div class="prl"></div><div class="prf" style="width:'+pct+'"></div>'+stages.map(function(s,i){return'<div class="st"><div class="sd2'+(i<=idx?' done':i===idx&&!c?' cur':'')+'"></div><span class="sl'+(i<=idx?' done':'')+'">'+s+'</span></div>'}).join('')+'</div><div class="dg"><div class="di"><div class="lbl">Customer</div><div class="val">'+o.customerName+'</div></div><div class="di"><div class="lbl">Phone</div><div class="val">'+o.phone+'</div></div><div class="di"><div class="lbl">Total</div><div class="val" style="color:var(--pri);font-weight:700">'+fmtKES(o.total)+'</div></div><div class="di"><div class="lbl">M-Pesa</div><div class="val">'+(o.mpesaRef||'\u2014')+'</div></div><div class="di"><div class="lbl">Items</div><div class="val" style="font-size:.75rem">'+items+'</div></div><div class="di"><div class="lbl">Date</div><div class="val">'+o.date+'</div></div></div><div style="margin-top:8px;text-align:right"><select onchange="uos(\''+o.id+'\',this.value)" style="padding:4px 8px;border-radius:6px;border:1px solid var(--bd);font-size:.7rem;font-family:inherit;cursor:pointer"><option value="">Update</option><option>Confirmed</option><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select></div></div>';
+  }).join('');
+}
+
+function uos(oid,ns){if(!ns)return;var orders=DB.orders();var i=orders.findIndex(function(o){return o.id===oid});if(i>=0){orders[i].status=ns;DB.setOrders(orders);ro();toast(oid+' \u2192 '+ns)}}
+
+function ts(){
+  var q=$('ti').value.trim();if(!q)return;
+  var pn=q.replace(/[^0-9]/g,'');if(pn.startsWith('0'))pn='254'+pn.slice(1);
+  var isPhone=pn.length>=10;
+  var orders=DB.orders();
+  var found=isPhone?orders.filter(function(o){return((o.phone||'')+(o.phoneNum||'')).replace(/[^0-9]/g,'').includes(pn)}):orders.filter(function(o){return(o.id||'').toUpperCase().includes(q.toUpperCase())||(o.customerName||'').toLowerCase().includes(q.toLowerCase())});
+  var d=$('tr');
+  if(!found.length){d.innerHTML='<div class="es"><div class="ei">\ud83d\udd0d</div><p>Not found: '+q+'</p></div>';return}
+  var stages=['Confirmed','Processing','Shipped','Delivered'];
+  d.innerHTML=[].concat(found).reverse().map(function(o){
+    var idx=stages.indexOf(o.status),c=o.status==='Cancelled';
+    var sc=c?'Cancelled':idx>=3?'Delivered':idx>=2?'Shipped':idx>=1?'Processing':'Confirmed';
+    var pct=c?'0%':idx>=0?((idx+1)/stages.length*90)+'%':'18%';
+    var bc=sc==='Delivered'?'bs':sc==='Cancelled'?'be':sc==='Shipped'?'bpu':sc==='Processing'?'bi':'bs';
+    var items=(Array.isArray(o.items)?o.items:[]).join(', ');
+    return'<div class="ob"><div class="oh"><span class="oi">\ud83d\udce6 '+o.id+'</span><span class="badge '+bc+'">'+o.status+'</span></div><div class="prg"><div class="prl"></div><div class="prf" style="width:'+pct+'"></div>'+stages.map(function(s,i){return'<div class="st"><div class="sd2'+(i<=idx?' done':i===idx&&!c?' cur':'')+'"></div><span class="sl'+(i<=idx?' done':'')+'">'+s+'</span></div>'}).join('')+'</div><div class="dg"><div class="di"><div class="lbl">Customer</div><div class="val">'+o.customerName+'</div></div><div class="di"><div class="lbl">Phone</div><div class="val">'+o.phone+'</div></div><div class="di"><div class="lbl">Total</div><div class="val" style="color:var(--pri);font-weight:700">'+fmtKES(o.total)+'</div></div><div class="di"><div class="lbl">Ref</div><div class="val">'+(o.mpesaRef||'\u2014')+'</div></div><div class="di"><div class="lbl">Items</div><div class="val" style="font-size:.75rem">'+items+'</div></div><div class="di"><div class="lbl">Date</div><div class="val">'+o.date+'</div></div></div></div>';
+  }).join('');
+}
+
+rs();rc();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"3279d41ec7804124a29acc6e692f9a2b","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

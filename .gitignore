@@ -1,3 +1,9 @@
 node_modules/
 .env
 *.log
+
+# M-Pesa credentials — never commit
+public/api/config.php
+
+# Payment records and cached token
+public/api/data/*.json
