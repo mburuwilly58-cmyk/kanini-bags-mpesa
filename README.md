@@ -38,64 +38,14 @@ public/
 archive/              Earlier versions, kept for reference
 ```
 
-## 🚀 Setup (XAMPP)
+## 🚀 Setup
 
-**1. Put the project where Apache can serve it**
+See **[SETUP.md](SETUP.md)** — full step-by-step for a fresh machine, plus
+troubleshooting.
 
-Copy this folder into `C:\xampp\htdocs\`, then start **Apache** from the XAMPP
-Control Panel. Check it loads at <http://localhost/projec/public/>.
-
-**2. Add your credentials**
-
-```bash
-cp public/api/config.example.php public/api/config.php
-```
-
-Fill in the values from <https://developer.safaricom.co.ke> → My Apps:
-
-| Setting | Where it comes from |
-|---|---|
-| `consumer_key` / `consumer_secret` | Your app's page on the Daraja portal |
-| `shortcode` | `174379` for sandbox |
-| `passkey` | APIs → M-Pesa Express → Simulate |
-| `callback_base` | Your ngrok URL + path to `api` (see below) |
-
-`config.php` is gitignored. Never commit it.
-
-**3. Fix PHP's CA bundle — do this before anything else**
-
-XAMPP ships without a CA bundle, so cURL cannot verify Safaricom's certificate
-and every call fails with `SSL certificate problem`. Download
-[cacert.pem](https://curl.se/ca/cacert.pem) to `C:\xampp\php\extras\ssl\cacert.pem`,
-then in `C:\xampp\php\php.ini` set:
-
-```ini
-curl.cainfo = "C:\xampp\php\extras\ssl\cacert.pem"
-openssl.cafile = "C:\xampp\php\extras\ssl\cacert.pem"
-```
-
-Restart Apache.
-
-> Most tutorials tell you to "fix" this with `CURLOPT_SSL_VERIFYPEER => false`.
-> **Don't.** That disables certificate checking entirely and lets anyone on the
-> network read or alter your payment traffic. Install the CA bundle instead.
-
-**4. Expose the callback**
-
-Safaricom POSTs the result to a public HTTPS URL — `localhost` will not work.
-
-```bash
-ngrok http 80
-```
-
-Put the resulting URL **plus the path to the api folder** in `config.php`:
-
-```php
-'callback_base' => 'https://a1b2-x-x.ngrok-free.app/projec/public/api',
-```
-
-**This URL changes every time ngrok restarts.** Update `config.php` when it does,
-or callbacks vanish and payments hang forever.
+Once running, open `api/setup_check.php` in a browser. It verifies PHP
+extensions, the CA bundle, config, database and password hashes, and prints the
+fix for anything broken.
 
 ## 🧪 Testing
 
