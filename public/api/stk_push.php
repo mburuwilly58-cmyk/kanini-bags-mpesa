@@ -2,10 +2,17 @@
 // POST {phone, amount} -> triggers the M-Pesa PIN prompt on the customer's phone.
 
 declare(strict_types=1);
-require __DIR__ . '/mpesa.php';
+require __DIR__ . '/db.php';
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     json_fail('POST only.', 405);
+}
+
+// The browser hides checkout behind a login, but that only stops honest users —
+// anyone can curl this endpoint. This is the check that actually enforces it.
+$user = current_user();
+if ($user === null) {
+    json_fail('Please sign in to pay.', 401);
 }
 
 $cfg = mpesa_config();
@@ -60,6 +67,7 @@ try {
         'status'     => 'PENDING',
         'amount'     => $amount,
         'phone'      => $phone,
+        'user_id'    => $user['id'],
         'created_at' => time(),
     ]);
 

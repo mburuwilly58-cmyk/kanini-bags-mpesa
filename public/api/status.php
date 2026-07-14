@@ -3,7 +3,7 @@
 // The browser polls this every few seconds while the customer enters their PIN.
 
 declare(strict_types=1);
-require __DIR__ . '/mpesa.php';
+require __DIR__ . '/db.php';
 
 // Daraja sandbox enforces a spike arrest of 5 requests per minute across the
 // app. The browser polls far faster than that, so serve from our own store and
@@ -20,6 +20,15 @@ if ($id === '') {
 
 $record = payment_get($id);
 if ($record === null) {
+    json_fail('Unknown CheckoutRequestID.', 404);
+}
+
+// A CheckoutRequestID is ws_CO_<timestamp><msisdn> — it embeds the customer's
+// phone number and is therefore partly guessable. Without this, anyone could
+// walk ids and read back amounts and receipts. Answer the same way for "not
+// yours" as for "no such id" so the endpoint can't confirm an id exists.
+$viewer = current_user();
+if ($viewer === null || ($record['user_id'] ?? null) !== $viewer['id']) {
     json_fail('Unknown CheckoutRequestID.', 404);
 }
 

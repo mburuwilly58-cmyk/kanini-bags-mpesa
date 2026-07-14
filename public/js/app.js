@@ -42,7 +42,15 @@ function rs(){
 }
 function sc(c){activeCat=c;rs();document.getElementById('store-prods').scrollIntoView({behavior:'smooth'})}
 
-function ac(pid){var p=fp(pid);if(!p||p.stock<=0)return;var ex=cart.find(function(x){return x.pid===pid});if(ex){if(ex.qty>=p.stock){toast('Max stock!',true);return}ex.qty++}else cart.push({pid:pid,qty:1});rc();toast('Added!')}
+function ac(pid){
+  requireAuth(function(){
+    var p=fp(pid);if(!p||p.stock<=0)return;
+    var ex=cart.find(function(x){return x.pid===pid});
+    if(ex){if(ex.qty>=p.stock){toast('Max stock!',true);return}ex.qty++}
+    else cart.push({pid:pid,qty:1});
+    rc();toast('Added!');
+  });
+}
 function rc(){
   $('cc').textContent=cart.reduce(function(s,x){return s+x.qty},0);
   if(cart.length===0){$('ci').innerHTML='<div class="ce"><div class="ei">🛒</div><p>Empty cart</p></div>';$('cttv').textContent='KES 0';$('bco').disabled=true;return}
@@ -57,9 +65,12 @@ function tc(){$('co').classList.toggle('open')}
 
 function oc(){
   if(cart.length===0)return;
-  var total=cart.reduce(function(s,x){var p=fp(x.pid);return s+(p?p.price*x.qty:0)},0);
-  $('cot').textContent=fmtKES(total);
-  $('cm').classList.add('open');
+  requireAuth(function(){
+    var total=cart.reduce(function(s,x){var p=fp(x.pid);return s+(p?p.price*x.qty:0)},0);
+    $('cot').textContent=fmtKES(total);
+    $('co').classList.remove('open');
+    $('cm').classList.add('open');
+  });
 }
 function cc(){$('cm').classList.remove('open');checkoutData=null}
 
@@ -251,6 +262,19 @@ function setUser(u){
 }
 
 // Sessions live in a cookie, so a refresh should keep you signed in.
-fetch('api/auth_me.php').then(function(r){return r.json()}).then(function(d){
+var authReady=fetch('api/auth_me.php').then(function(r){return r.json()}).then(function(d){
   if(d.ok&&d.user)setUser(d.user);
-}).catch(function(){/* signed out, or API not reachable — page still works */});
+}).catch(function(){/* signed out, or API unreachable */});
+
+// Gate for actions that need an account. On a cold page load the session check
+// may still be in flight, so wait for it rather than bouncing a signed-in user
+// to the login modal. This is a convenience, not a security control — the real
+// check is server-side in stk_push.php, since anyone can POST to the API directly.
+function requireAuth(next){
+  if(currentUser)return next();
+  authReady.then(function(){
+    if(currentUser)return next();
+    openAuth('in');
+    toast('Please sign in to continue',true);
+  });
+}
