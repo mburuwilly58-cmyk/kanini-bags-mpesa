@@ -16,6 +16,17 @@ The browser never talks to Safaricom directly — Daraja sends no CORS headers, 
 consumer secret must never reach client-side code. The server holds the credentials,
 proxies the push, and receives the result on a public callback URL.
 
+## 📁 Layout
+
+```
+server.js            Express: serves the site + /api/stk/* endpoints
+.env                 Credentials (gitignored — never commit)
+public/
+  index.html         Markup only
+  css/styles.css     All styling
+  js/app.js          All frontend logic
+```
+
 ## 🚀 Setup
 
 **1. Install dependencies**
