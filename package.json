@@ -1,0 +1,15 @@
+{
+  "name": "kanini-bags-mpesa",
+  "version": "1.0.0",
+  "description": "Kanini Bags store with M-Pesa STK Push (Daraja) payments",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
