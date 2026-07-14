@@ -69,6 +69,17 @@ Edit `public/api/config.php`:
 `config.php` is gitignored. It never gets committed, which is why you have to
 create it on each machine.
 
+## 4b. The one file git will never give you
+
+`public/api/config.php` is **gitignored on purpose** — it holds your Daraja
+secrets, your database password and the admin hash. Anything committed to a
+public repo is readable by everyone, and git history keeps it even after you
+change the value. So it does not exist after a clone: you create it by hand on
+every machine.
+
+Everything else arrives with `git pull`. This one file is the only manual step.
+`config.example.php` is the tracked template showing every key with placeholders.
+
 ## 5. Check your setup
 
 Start **Apache** and **MySQL** in XAMPP, then open:
@@ -108,6 +119,28 @@ Open <http://localhost/kanini-bags/public/>
 
 Sandbox moves no real money.
 
+## Admin
+
+Sign in with the email and password set in `config.php` under `admin`. A gold
+**Admin** link then appears in the navbar.
+
+The dashboard shows revenue (completed payments only), paid / pending / failed
+counts, every M-Pesa transaction with its receipt and basket, and your customers
+from the `users` table.
+
+**Change the admin password before this leaves your laptop.** Generate a hash:
+
+```
+C:\xampp\php\php.exe -r "echo password_hash('your-new-password', PASSWORD_BCRYPT);"
+```
+
+Paste it into `config.php` under `admin` -> `password_hash`. Store the hash,
+never the password.
+
+The admin authenticates against `config.php`, so it works even if the `users`
+table has no admin row. Customers and guests get a 403 from
+`api/admin_data.php` no matter what the page shows.
+
 ## Troubleshooting
 
 | Symptom | Cause |
@@ -119,6 +152,8 @@ Sandbox moves no real money.
 | PIN prompt appears but page never confirms | Stale ngrok URL in `config.php` |
 | `This account needs a password reset` | That user's hash is truncated — see below |
 | Spike arrest / HTTP 429 | Daraja allows 5 requests/min. Wait a minute. |
+| `Admin access required` | Sign in with the `admin` email from `config.php` |
+| Admin shows no transactions | None yet — they appear as soon as a customer pays |
 
 ### Accounts that can't log in
 
