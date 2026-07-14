@@ -113,3 +113,12 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 @keyframes stkspin{to{transform:rotate(360deg)}}
 .stk-wait.done .stk-spin{display:none}
 .stk-icon{font-size:2.6rem;line-height:1}
+/* ════════════════ AUTH ════════════════ */
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-user{font-size:.8rem;font-weight:600;color:var(--pri);background:var(--pl);padding:6px 12px;border-radius:20px;white-space:nowrap}
+.auth-tabs{display:flex;gap:6px;margin-bottom:16px;border-bottom:1.5px solid var(--bd)}
+.auth-tab{flex:1;padding:10px;border:none;background:none;font-family:inherit;font-size:.88rem;font-weight:600;color:var(--mu);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1.5px;transition:.2s}
+.auth-tab.active{color:var(--pri);border-bottom-color:var(--pri)}
+.auth-tab:hover{color:var(--pri)}
+.auth-err{color:var(--rd);font-size:.78rem;min-height:18px;margin:4px 0}
+.auth-err.ok{color:var(--gn)}

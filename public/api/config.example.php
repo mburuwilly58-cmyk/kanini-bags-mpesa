@@ -22,4 +22,13 @@ return [
     'callback_base' => '',
 
     'account_ref' => 'Kanini Bags',
+
+    // MySQL (XAMPP defaults: root / empty password)
+    'db' => [
+        'host' => '127.0.0.1',
+        'port' => 3306,
+        'name' => 'kanini_sales',
+        'user' => 'root',
+        'pass' => '',
+    ],
 ];

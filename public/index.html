@@ -15,7 +15,14 @@
     <span class="nlk" onclick="sp('orders')">📋 Orders</span>
     <span class="nlk" onclick="sp('track')">🔍 Track</span>
   </div>
-  <div><button class="btn btn-pri btn-sm" onclick="tc()">🛒 <span id="cc">0</span></button></div>
+  <div class="nav-right">
+    <span id="auth-out"><button class="btn btn-outline btn-sm" onclick="openAuth('in')">Sign In</button></span>
+    <span id="auth-in" style="display:none">
+      <span class="nav-user" id="nav-user"></span>
+      <button class="btn btn-outline btn-sm" onclick="doLogout()">Sign Out</button>
+    </span>
+    <button class="btn btn-pri btn-sm" onclick="tc()">🛒 <span id="cc">0</span></button>
+  </div>
 </nav>
 <div id="pg-store">
 <section class="hero">
@@ -57,6 +64,30 @@
   <div class="ch"><h2>🛒 Your Cart</h2><button style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--mu)" onclick="tc()">✕</button></div>
   <div class="ciw" id="ci"></div>
   <div class="cf"><div class="ctr"><span>Total</span><span id="cttv">KES 0</span></div><div class="ctx">Delivery calculated at checkout</div><button class="btn btn-pri" onclick="oc()" id="bco" disabled style="width:100%">Proceed to Checkout →</button></div>
+</div></div>
+
+<div class="mb" id="am"><div class="md">
+  <div class="auth-tabs">
+    <button class="auth-tab active" id="at-in" onclick="switchAuth('in')">Sign In</button>
+    <button class="auth-tab" id="at-up" onclick="switchAuth('up')">Sign Up</button>
+  </div>
+
+  <div id="auth-pane-in">
+    <div class="fld"><label>Email *</label><input type="email" id="li-email" placeholder="your@email.com" autocomplete="email"></div>
+    <div class="fld"><label>Password *</label><input type="password" id="li-pass" placeholder="Your password" autocomplete="current-password"></div>
+    <div class="auth-err" id="li-err"></div>
+    <div class="mft"><button class="btn btn-outline" onclick="closeAuth()">Cancel</button><button class="btn btn-pri" onclick="doLogin()">Sign In →</button></div>
+  </div>
+
+  <div id="auth-pane-up" style="display:none">
+    <div class="fld"><label>Full Name *</label><input type="text" id="su-name" placeholder="Jane Muthoni" autocomplete="name"></div>
+    <div class="fld"><label>Email *</label><input type="email" id="su-email" placeholder="your@email.com" autocomplete="email"></div>
+    <div class="fld"><label>Phone (M-Pesa) *</label><input type="text" id="su-phone" placeholder="0712 345 678" autocomplete="tel"></div>
+    <div class="fld"><label>Delivery Address</label><input type="text" id="su-addr" placeholder="Nairobi CBD" autocomplete="street-address"></div>
+    <div class="fld"><label>Password *</label><input type="password" id="su-pass" placeholder="At least 8 characters" autocomplete="new-password"></div>
+    <div class="auth-err" id="su-err"></div>
+    <div class="mft"><button class="btn btn-outline" onclick="closeAuth()">Cancel</button><button class="btn btn-pri" onclick="doSignup()">Create Account →</button></div>
+  </div>
 </div></div>
 
 <div class="mb" id="cm"><div class="md">

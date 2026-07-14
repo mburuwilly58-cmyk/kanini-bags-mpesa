@@ -185,3 +185,72 @@ function ts(){
 }
 
 rs();rc();
+
+// ════════════════ AUTH ════════════════
+var currentUser=null;
+
+function openAuth(tab){switchAuth(tab||'in');$('am').classList.add('open')}
+function closeAuth(){$('am').classList.remove('open');$('li-err').textContent='';$('su-err').textContent=''}
+function switchAuth(tab){
+  var isIn=tab==='in';
+  $('at-in').classList.toggle('active',isIn);
+  $('at-up').classList.toggle('active',!isIn);
+  $('auth-pane-in').style.display=isIn?'block':'none';
+  $('auth-pane-up').style.display=isIn?'none':'block';
+  $('li-err').textContent='';$('su-err').textContent='';
+}
+
+async function postJSON(url,body){
+  var r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body||{})});
+  var d=await r.json();
+  if(!d.ok)throw new Error(d.error||'Request failed');
+  return d;
+}
+
+function doLogin(){
+  var err=$('li-err');err.className='auth-err';err.textContent='Signing in...';
+  postJSON('api/auth_login.php',{email:$('li-email').value.trim(),password:$('li-pass').value}).then(function(d){
+    setUser(d.user);closeAuth();toast('Welcome back, '+d.user.name.split(' ')[0]+'!');
+    $('li-pass').value='';
+  }).catch(function(e){err.textContent=e.message});
+}
+
+function doSignup(){
+  var err=$('su-err');err.className='auth-err';err.textContent='Creating account...';
+  postJSON('api/auth_signup.php',{
+    name:$('su-name').value.trim(),email:$('su-email').value.trim(),
+    phone:$('su-phone').value.trim(),address:$('su-addr').value.trim(),
+    password:$('su-pass').value
+  }).then(function(d){
+    setUser(d.user);closeAuth();toast('Account created. Welcome, '+d.user.name.split(' ')[0]+'!');
+    $('su-pass').value='';
+  }).catch(function(e){err.textContent=e.message});
+}
+
+function doLogout(){
+  postJSON('api/auth_logout.php').then(function(){
+    setUser(null);toast('Signed out');
+  }).catch(function(e){toast(e.message,true)});
+}
+
+function setUser(u){
+  currentUser=u;
+  var inEl=$('auth-in'),outEl=$('auth-out');
+  if(u){
+    outEl.style.display='none';inEl.style.display='flex';
+    $('nav-user').textContent='👤 '+u.name.split(' ')[0];
+    // Prefill checkout from the account so the customer isn't retyping it.
+    if(u.name)$('con').value=u.name;
+    if(u.phone)$('cop').value=u.phone;
+    if(u.address)$('coa').value=u.address;
+    if(u.email)$('coe').value=u.email;
+  }else{
+    outEl.style.display='inline-block';inEl.style.display='none';
+    $('nav-user').textContent='';
+  }
+}
+
+// Sessions live in a cookie, so a refresh should keep you signed in.
+fetch('api/auth_me.php').then(function(r){return r.json()}).then(function(d){
+  if(d.ok&&d.user)setUser(d.user);
+}).catch(function(){/* signed out, or API not reachable — page still works */});
